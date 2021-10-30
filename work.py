@@ -1,4 +1,7 @@
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+
+tf.disable_v2_behavior()
 from PIL import Image
 import numpy as np
 import sys
@@ -6,7 +9,7 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 img = Image.open(sys.stdin.buffer.raw).convert('L') # 读取图片并灰度化
-
+print('img', img)
 img = img.crop((2, 1, 66, 22)) # 裁掉边变成 64x21
 
 # 分离数字
@@ -43,6 +46,7 @@ saver.restore(sess, save_path)
 correct_prediction = tf.argmax(y, 1)
 result = sess.run(correct_prediction, feed_dict={x: [img1, img2, img3, img4]})
 sess.close()
-
-for num in result:
-    print(num, end='')
+print('result', result)
+# for num in result:
+#     print(num, end='')
+print('验证码识别的结果：', [num for num in result])

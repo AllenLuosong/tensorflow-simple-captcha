@@ -1,4 +1,6 @@
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from data import train_images, train_labels, test_labels, test_images
 
 DLEN = len(train_images.data[0])
@@ -28,6 +30,7 @@ for i in range(DNUM):
 
 correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+print('模型识别的正确率：')
 print(sess.run(accuracy, feed_dict={x: test_images.data, y_: test_labels.data}))
 
 saver.save(sess, 'model/model')
